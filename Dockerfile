@@ -14,11 +14,11 @@ RUN apk add --no-cache --virtual .build-deps \
                 curl \
                 python3 \
   && pip3 install -r requirements.txt \
-  && git rev-parse HEAD > /revision \
-  && rm -rf .git \
+#  && git rev-parse HEAD > /revision \
+#  && rm -rf .git \
   && mkdir /python_packages \
   && cd /python_packages \
-  && git clone git@github.com:Lumavate-Team/python-signer.git lumavate_signer \
+  && git clone https://github.com/Lumavate-Team/python-signer.git lumavate_signer \
   && rm -rf /python_packages/lumavate_signer/.git \
   && apk del .build-deps \
   && mkdir -p /widget
