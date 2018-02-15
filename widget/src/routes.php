@@ -7,19 +7,6 @@ use Dflydev\FigCookies\FigRequestCookies;
 // Routes
 
 $app->get('/{integration_cloud}/{url_ref}/{widget_instance_id}', function (Request $request, Response $response, array $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/default' route");
-
-		$uri = 'https://' . $request->getUri()->getHost() . '/';
-		$uri .= $args['integration_cloud'] . '/';
-		$uri .= $args['url_ref'] . '/';
-		$uri .= $args['widget_instance_id'] . '/';
-		$uri .= 'index';
-		return $response->withStatus(302)->withHeader('Location', $uri);
-});
-
-$app->get('/{integration_cloud}/{url_ref}/{widget_instance_id}/index', function (Request $request, Response $response, array $args) {
-    // Sample log message
     $this->logger->info("Slim-Skeleton '/default' route");
 
 		$cookie = FigRequestCookies::get($request, 'pwa_jwt')->getValue();
@@ -45,7 +32,7 @@ $app->get('/{integration_cloud}/{url_ref}/{widget_instance_id}/index', function 
 		$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 		if ($httpcode == 401) {
-			$uri = 'https://' . $request->getUri()->getHost();
+			$uri = getenv('BASE_URL') . $request->getUri()->getHost();
 			$uri .= '?u=/';
 			$uri .= $args['integration_cloud'] . '/';
 			$uri .= $args['url_ref'] . '/';
@@ -67,7 +54,7 @@ $app->get('/{integration_cloud}/{url_ref}/discover/properties', function (Reques
               => array(
                    array(
                      'classification' => 'General',
-                     'section' => 'General Settings',
+                     'section' => 'General Settings x',
                      'default' => 'Hello, World!',
                      'helpText' => 'Our example property',
                      'label' => 'Hello PHP Text Property',
@@ -90,4 +77,3 @@ $app->get('/{integration_cloud}/{url_ref}/discover/health', function (Request $r
     // Render index view
     return 'Ok';
 });
-
