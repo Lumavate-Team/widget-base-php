@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  events:
+    container_name: "events"
+    image: "events:latest"
+    ports:
+      - 8091:8080
+    volumes:
+      - ~/Dev/widgets/widget-base-php/widget:/www:rw
+    environment:
+      - PRIVATE_KEY=LXycaMpw5BzgfhsS4ydNxGzJ36qMnPrQHI8u2x3wQCZCZyGtZ4sOQbkEWnHmVchZEa79a0Y3xK7IKCymSLkugyabbJUGuXfyuoKL
+      - PUBLIC_KEY=mIhuoMJh0jbA5W4pUUNK
+      - APP_SETTINGS=./config/dev.cfg
+      - BASE_URL=http://$DOCKER_IP
+      - PROTO=http://
+      - SERVICE_NAME=Events
+      - WIDGET_URL_PREFIX=/ic/widget1/
+    network_mode: bridge
+
+  thor:
+    container_name: "thor"
+    image: "quay.io/lumavate/thor:2.0"
+    ports:
+      - 80:4201
+      - 443:4202
+    volumes:
+      - ~/Dev/thor-data:/data:rw
+      - ~/Dev/components:/components/custom:rw
+    environment:
+      - PUBLIC_KEY=mIhuoMJh0jbA5W4pUUNK
+      - PRIVATE_KEY=LXycaMpw5BzgfhsS4ydNxGzJ36qMnPrQHI8u2x3wQCZCZyGtZ4sOQbkEWnHmVchZEa79a0Y3xK7IKCymSLkugyabbJUGuXfyuoKL
+      - HOST_IP=$DOCKER_IP
+    network_mode: bridge
