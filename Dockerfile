@@ -22,6 +22,7 @@ RUN apk add --no-cache --virtual .build-deps \
   && mkdir -p /widget
 
 FROM quay.io/lumavate/edit:base
+
 RUN apk --no-cache add \
         php7 \
         php7-ctype \
@@ -50,6 +51,7 @@ RUN apk --no-cache add \
 RUN set -x \
     && addgroup -g 82 -S www-data \
     && adduser -u 82 -D -S -G www-data www-data
+
 EXPOSE 8080
 
 COPY supervisord.conf /etc/supervisor/conf.d
@@ -60,5 +62,6 @@ WORKDIR /widget
 COPY ./widget /widget
 
 ENV PYTHONPATH /python_packages
+ENV PROJECT_ROOT /widget
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
