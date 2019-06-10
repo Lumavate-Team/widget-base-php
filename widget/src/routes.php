@@ -6,6 +6,10 @@ use Dflydev\FigCookies\FigRequestCookies;
 
 // Routes
 
+$app->get('/{integration_cloud}/{url_ref}/', function(Request $request, Response $response, array $args) {
+    return $this->renderer->render($response, 'index.phtml', array('helloText' =>'Hello'));
+});
+
 $app->get('/{integration_cloud}/{url_ref}/{widget_instance_id}', function (Request $request, Response $response, array $args) {
     $this->logger->info("Slim-Skeleton '/default' route");
 
@@ -76,4 +80,37 @@ $app->get('/{integration_cloud}/{url_ref}/discover/health', function (Request $r
 
     // Render index view
     return 'Ok';
+});
+
+$app->get('/{integration_cloud}/{url_ref}/sample/', function (Request $request, Response $response, array $args) {
+
+  $data = array(
+    'field1' => array(
+      'value1',
+      'vaule2'
+    )
+  );
+
+  return $response->withJson($data);
+});
+
+$app->get('/{integration_cloud}/{url_ref}/discover/routes', function (Request $request, Response $response, array $args) {
+    // Sample log message
+    $this->logger->info("Slim-Skeleton '/discover/routes' route");
+
+    // Render array of routes
+		$data = array(
+      array(
+			'path' => '^/$',
+			'security' => array('jwt'),
+			'type' => 'page',
+			'isManage' => 'false'
+    ),array(
+      'path' => '^/sample/',
+      'security' => array('jwt'),
+      'type' => 'page',
+      'isManage' => 'false'
+    ));
+
+    return $response->withJson($data);
 });
